@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a8f98"/>
+    </marker>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="780" fill="#f7f8fa" rx="16"/>
+
+  <text x="600" y="44" text-anchor="middle" font-size="26" font-weight="700" fill="#232f3e">AWS Landing Zone — Multi-Account Architecture</text>
+  <text x="600" y="70" text-anchor="middle" font-size="14" fill="#6b7280">Organizations · OUs · SCP guardrails · Control Tower · IAM Identity Center</text>
+
+  <!-- Management account -->
+  <g filter="url(#soft)">
+    <rect x="380" y="96" width="440" height="104" rx="12" fill="#232f3e"/>
+    <text x="600" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#ff9900">MANAGEMENT ACCOUNT (payer)</text>
+    <text x="600" y="146" text-anchor="middle" font-size="13" fill="#d1d5db">AWS Organizations · IAM Identity Center · Consolidated Billing</text>
+    <text x="600" y="168" text-anchor="middle" font-size="12" fill="#9ca3af">No workloads here — ever. SCPs do not apply to this account.</text>
+    <text x="600" y="188" text-anchor="middle" font-size="12" fill="#9ca3af">Break-glass admin path lives here.</text>
+  </g>
+
+  <!-- SCP guardrail bar -->
+  <g>
+    <rect x="60" y="222" width="1080" height="46" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="8 5"/>
+    <text x="600" y="243" text-anchor="middle" font-size="14" font-weight="700" fill="#92400e">🛡 ROOT-LEVEL SCPs (deny) — apply to the entire org</text>
+    <text x="600" y="260" text-anchor="middle" font-size="12" fill="#92400e">Deny organizations:LeaveOrganization · Deny disabling CloudTrail · Deny deleting log buckets</text>
+  </g>
+
+  <!-- OU columns -->
+  <!-- Security OU -->
+  <g filter="url(#soft)">
+    <rect x="60" y="296" width="255" height="330" rx="12" fill="#ffffff" stroke="#3b82f6" stroke-width="2"/>
+    <rect x="60" y="296" width="255" height="44" rx="12" fill="#3b82f6"/>
+    <text x="187" y="323" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">🔒 Security OU</text>
+    <rect x="76" y="356" width="223" height="86" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="187" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Log Archive</text>
+    <text x="187" y="400" text-anchor="middle" font-size="11.5" fill="#3b82f6">Org CloudTrail · Config</text>
+    <text x="187" y="416" text-anchor="middle" font-size="11.5" fill="#3b82f6">Immutable S3, Object Lock</text>
+    <rect x="76" y="452" width="223" height="86" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+    <text x="187" y="476" text-anchor="middle" font-size="13" font-weight="700" fill="#1e40af">Audit</text>
+    <text x="187" y="496" text-anchor="middle" font-size="11.5" fill="#3b82f6">Security Hub · GuardDuty</text>
+    <text x="187" y="512" text-anchor="middle" font-size="11.5" fill="#3b82f6">Read-only audit tooling</text>
+    <text x="187" y="566" text-anchor="middle" font-size="11.5" fill="#6b7280">SCP: deny all writes</text>
+    <text x="187" y="584" text-anchor="middle" font-size="11.5" fill="#6b7280">except log delivery</text>
+    <text x="187" y="610" text-anchor="middle" font-size="11.5" font-style="italic" fill="#9ca3af">Nobody deploys apps here</text>
+  </g>
+
+  <!-- Infrastructure OU -->
+  <g filter="url(#soft)">
+    <rect x="335" y="296" width="255" height="330" rx="12" fill="#ffffff" stroke="#8b5cf6" stroke-width="2"/>
+    <rect x="335" y="296" width="255" height="44" rx="12" fill="#8b5cf6"/>
+    <text x="462" y="323" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">🧱 Infrastructure OU</text>
+    <rect x="351" y="356" width="223" height="86" rx="8" fill="#f5f3ff" stroke="#ddd6fe"/>
+    <text x="462" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">Network</text>
+    <text x="462" y="400" text-anchor="middle" font-size="11.5" fill="#8b5cf6">Transit Gateway · Shared VPCs</text>
+    <text x="462" y="416" text-anchor="middle" font-size="11.5" fill="#8b5cf6">RAM-shared subnets</text>
+    <rect x="351" y="452" width="223" height="86" rx="8" fill="#f5f3ff" stroke="#ddd6fe"/>
+    <text x="462" y="476" text-anchor="middle" font-size="13" font-weight="700" fill="#5b21b6">Shared Services</text>
+    <text x="462" y="496" text-anchor="middle" font-size="11.5" fill="#8b5cf6">CI/CD runners · ECR mirror</text>
+    <text x="462" y="512" text-anchor="middle" font-size="11.5" fill="#8b5cf6">Private DNS · Backups vault</text>
+    <text x="462" y="566" text-anchor="middle" font-size="11.5" fill="#6b7280">SCP: approved regions only</text>
+    <text x="462" y="584" text-anchor="middle" font-size="11.5" fill="#6b7280">+ required cost tags</text>
+    <text x="462" y="610" text-anchor="middle" font-size="11.5" font-style="italic" fill="#9ca3af">Hub of the hub-and-spoke</text>
+  </g>
+
+  <!-- Workloads OU -->
+  <g filter="url(#soft)">
+    <rect x="610" y="296" width="255" height="330" rx="12" fill="#ffffff" stroke="#10b981" stroke-width="2"/>
+    <rect x="610" y="296" width="255" height="44" rx="12" fill="#10b981"/>
+    <text x="737" y="323" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">🚀 Workloads OU</text>
+    <rect x="626" y="356" width="223" height="62" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="737" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Dev</text>
+    <text x="737" y="400" text-anchor="middle" font-size="11.5" fill="#10b981">Fast-moving, cheaper guardrails</text>
+    <rect x="626" y="428" width="223" height="62" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="737" y="452" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Staging</text>
+    <text x="737" y="472" text-anchor="middle" font-size="11.5" fill="#10b981">Prod mirror, prod-like rules</text>
+    <rect x="626" y="500" width="223" height="62" rx="8" fill="#ecfdf5" stroke="#a7f3d0"/>
+    <text x="737" y="524" text-anchor="middle" font-size="13" font-weight="700" fill="#065f46">Prod ⭐</text>
+    <text x="737" y="544" text-anchor="middle" font-size="11.5" fill="#10b981">Strictest SCPs · change control</text>
+    <text x="737" y="584" text-anchor="middle" font-size="11.5" fill="#6b7280">SCP: deny public S3, unencrypted</text>
+    <text x="737" y="602" text-anchor="middle" font-size="11.5" fill="#6b7280">DBs, GPU instances in non-prod</text>
+    <text x="737" y="620" text-anchor="middle" font-size="11.5" font-style="italic" fill="#9ca3af">One account per environment</text>
+  </g>
+
+  <!-- Sandbox OU -->
+  <g filter="url(#soft)">
+    <rect x="885" y="296" width="255" height="330" rx="12" fill="#ffffff" stroke="#f59e0b" stroke-width="2"/>
+    <rect x="885" y="296" width="255" height="44" rx="12" fill="#f59e0b"/>
+    <text x="1012" y="323" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">🧪 Sandbox OU</text>
+    <rect x="901" y="356" width="223" height="86" rx="8" fill="#fffbeb" stroke="#fde68a"/>
+    <text x="1012" y="380" text-anchor="middle" font-size="13" font-weight="700" fill="#92400e">Playground accounts</text>
+    <text x="1012" y="400" text-anchor="middle" font-size="11.5" fill="#b45309">Per-dev / per-experiment</text>
+    <text x="1012" y="416" text-anchor="middle" font-size="11.5" fill="#b45309">Test new SCPs here first</text>
+    <text x="1012" y="452" text-anchor="middle" font-size="12" fill="#6b7280">SCP: deny p*/x* instance types</text>
+    <text x="1012" y="472" text-anchor="middle" font-size="12" fill="#6b7280">SCP: budget action auto-nuke</text>
+    <text x="1012" y="492" text-anchor="middle" font-size="12" fill="#6b7280">resources on overspend</text>
+    <rect x="901" y="516" width="223" height="56" rx="8" fill="#fff7ed" stroke="#fed7aa"/>
+    <text x="1012" y="538" text-anchor="middle" font-size="12" font-weight="700" fill="#9a3412">💡 Tip: every new SCP</text>
+    <text x="1012" y="556" text-anchor="middle" font-size="12" fill="#9a3412">gets battle-tested here</text>
+    <text x="1012" y="610" text-anchor="middle" font-size="11.5" font-style="italic" fill="#9ca3af">Break things cheaply</text>
+  </g>
+
+  <!-- Arrows from management to OUs -->
+  <line x1="600" y1="200" x2="187" y2="292" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="200" x2="462" y2="292" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="200" x2="737" y2="292" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="200" x2="1012" y2="292" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Bottom flows -->
+  <g>
+    <rect x="60" y="650" width="530" height="100" rx="10" fill="#ffffff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <text x="325" y="674" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">↩ Logs flow: every account → Log Archive</text>
+    <text x="325" y="696" text-anchor="middle" font-size="12" fill="#6b7280">Org CloudTrail (all regions) · Config aggregator · S3 Object Lock (WORM)</text>
+    <text x="325" y="716" text-anchor="middle" font-size="12" fill="#6b7280">Even a compromised workload account can't erase its own trail.</text>
+    <text x="325" y="736" text-anchor="middle" font-size="12" font-style="italic" fill="#9ca3af">Detective guardrails read from here.</text>
+  </g>
+  <g>
+    <rect x="610" y="650" width="530" height="100" rx="10" fill="#ffffff" stroke="#e5e7eb" stroke-width="1.5"/>
+    <text x="875" y="674" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">👤 Access flow: humans → IAM Identity Center</text>
+    <text x="875" y="696" text-anchor="middle" font-size="12" fill="#6b7280">One login · permission sets per account · SSO to CLI via aws sso login</text>
+    <text x="875" y="716" text-anchor="middle" font-size="12" fill="#6b7280">No long-lived IAM users. No shared root passwords in a doc.</text>
+    <text x="875" y="736" text-anchor="middle" font-size="12" font-style="italic" fill="#9ca3af">Control Tower's Account Factory vends new accounts pre-wired to SSO.</text>
+  </g>
+
+  <line x1="187" y1="626" x2="200" y2="650" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="737" y1="626" x2="700" y2="650" stroke="#8a8f98" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
